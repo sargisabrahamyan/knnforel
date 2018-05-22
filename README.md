@@ -1,3 +1,3 @@
-# Implement KNN uding Forel algorithm in python
+# Implement KNN using Forel algorithm in python
 
 
