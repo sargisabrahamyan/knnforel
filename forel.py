@@ -67,30 +67,42 @@ def forel(radius, points):
 
 def getOptimalRadius(points, algorithm="average"):
     points_list = list(points)
+    avr_dist = 0
     if algorithm == "average":
+        #distances = list()
         sum_dist = 0
         k = 0
         for i in range(0, len(points_list) - 1):
             for j in range(i + 1, len(points_list)):
                 k = k + 1
+                #distances.append(getDistance(points_list[i], points_list[j]))
                 sum_dist = sum_dist + getDistance(points_list[i], points_list[j])
             i = i + 1
-        return sum_dist / k
+        avr_dist = sum_dist / k
+        return avr_dist
+        #TODO trying to implement optimal solution for radius
+        #mean = np.mean(distances)
+        #std = np.std(distances)
+        #stdDistances = [(dist - mean) / std for dist in distances]
+        #print (distances)
+        #print(stdDistances)
+        #stdValidDistances = [stdDistance for stdDistance in stdDistances if abs(stdDistance) <= 1]
+        #print(stdValidDistances)
     return 10
 
 points = set(tuple())
-points.add((1, 2))
-points.add((4, 6))
 
-points = dataretriver.getPointsFromCanvas(50, 100)
+points = dataretriver.getPointsFromCanvas(50, 50)
 # OR
 #points = dataretriver.getPointsFromFile(os.path.join(os.getcwd(), "data.txt"))
 
 print(points)
+# hold original points
+orig_points = set(points)
 
 r = getOptimalRadius(points)
 clusters = forel(r, points)
 print(clusters)
-dataretriver.showPoints(clusters, 50, 100)
+dataretriver.showPoints(clusters, orig_points, 50, 50)
 
 

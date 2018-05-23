@@ -7,7 +7,7 @@ board = plt.figure()
 def onclick(event):
     global points
     global board
-    plt.plot(event.xdata, event.ydata, 'ro')
+    plt.plot(event.xdata, event.ydata, 'go')
     points.add((int(event.xdata), int(event.ydata)))
     print(event.x, event.y)
     board.canvas.draw()
@@ -43,13 +43,15 @@ def getPointsFromFile(path, splitter=" "):
     return points
 
 
-def showPoints(points, width, height) :
+def showPoints(clusters, points, width, height) :
     board = plt.figure()
     ax = board.add_subplot(111)
     ax.set_xlim([0, width])
     ax.set_ylim([0, height])
     cid = board.canvas.mpl_connect('button_press_event', onclick)
-    for point in points :
+    for point in clusters :
         plt.plot(point[0], point[1], 'ro')
+    for point in points:
+        plt.plot(point[0], point[1], 'go')
     board.canvas.draw()
     plt.show()
