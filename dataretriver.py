@@ -7,7 +7,7 @@ board = plt.figure()
 def onclick(event):
     global points
     global board
-    plt.plot(event.xdata, event.ydata, ',')
+    plt.plot(event.xdata, event.ydata, 'ro')
     points.add((int(event.xdata), int(event.ydata)))
     print(event.x, event.y)
     board.canvas.draw()
@@ -41,3 +41,15 @@ def getPointsFromFile(path, splitter=" "):
                 except ValueError:
                     print("Avoid invalid input - ", line)
     return points
+
+
+def showPoints(points, width, height) :
+    board = plt.figure()
+    ax = board.add_subplot(111)
+    ax.set_xlim([0, width])
+    ax.set_ylim([0, height])
+    cid = board.canvas.mpl_connect('button_press_event', onclick)
+    for point in points :
+        plt.plot(point[0], point[1], 'ro')
+    board.canvas.draw()
+    plt.show()

@@ -9,13 +9,15 @@ import dataretriver
 def getNeighbours(p, r, points):
     neighbours = set(tuple())
     for point in points:
-        distance = math.sqrt(pow(point[0] - p[0], 2) + pow(point[1] - p[1], 2))
+        distance = getDistance(p, point)
         if distance <= r:
             #print("Distance beetwen ", point, "and", p, "is", distance)
             neighbours.add(point)
 
     return neighbours
 
+def getDistance(p1, p2) :
+    return math.sqrt(pow(p1[0] - p2[0], 2) + pow(p1[1] - p2[1], 2))
 # Center the given points to one point and return it
 def centerPoints(points):
     if len(points) == 0:
@@ -63,7 +65,17 @@ def forel(radius, points):
     print("Clusters - ", clusters)
     return clusters
 
-def getOptimalRadius(points):
+def getOptimalRadius(points, algorithm="average"):
+    points_list = list(points)
+    if algorithm == "average":
+        sum_dist = 0
+        k = 0
+        for i in range(0, len(points_list) - 1):
+            for j in range(i + 1, len(points_list)):
+                k = k + 1
+                sum_dist = sum_dist + getDistance(points_list[i], points_list[j])
+            i = i + 1
+        return sum_dist / k
     return 10
 
 points = set(tuple())
@@ -72,13 +84,13 @@ points.add((4, 6))
 
 points = dataretriver.getPointsFromCanvas(50, 100)
 # OR
-points = dataretriver.getPointsFromFile(os.path.join(os.getcwd(), "data.txt"))
+#points = dataretriver.getPointsFromFile(os.path.join(os.getcwd(), "data.txt"))
 
 print(points)
 
 r = getOptimalRadius(points)
-
 clusters = forel(r, points)
 print(clusters)
+dataretriver.showPoints(clusters, 50, 100)
 
 
